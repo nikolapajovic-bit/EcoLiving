@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import DownloadButtons from '../components/DownloadButtons';
 
 interface SectionProps {
@@ -11,13 +12,34 @@ interface SectionProps {
 
 const Section: React.FC<SectionProps> = ({ title, description, image, reverse }) => {
   return (
-    <div className={`flex flex-col md:flex-row ${reverse ? "md:flex-row-reverse" : ""} items-center justify-between gap-8 md:gap-16 py-12 px-6`}>
+    <div
+      className={`
+        max-w-6xl mx-auto
+        flex flex-col md:flex-row
+        ${reverse ? "md:flex-row-reverse" : ""}
+        items-center gap-12 md:gap-20
+        py-20 px-6
+      `}
+    >
       <div className="w-full md:w-1/2 flex justify-center">
-        <img src={image} alt={title} className="w-3/4 md:w-full max-w-sm shadow-lg rounded-lg" />
+        <div className="bg-transparent backdrop-blur-2xl rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02]">
+          <Image
+            src={image}
+            alt={title}
+            width={350}
+            height={640}
+            className="rounded-xl"
+          />
+        </div>
       </div>
-      <div className="w-full md:w-1/2 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-green-700">{title}</h2>
-        <p className="mt-4 text-gray-700">{description}</p>
+
+      <div className="w-full md:w-1/2 text-center md:text-left">
+        <h2 className="text-3xl md:text-4xl font-bold text-green-800">
+          {title}
+        </h2>
+        <p className="mt-4 text-lg text-gray-700 leading-relaxed">
+          {description}
+        </p>
       </div>
     </div>
   )
@@ -25,39 +47,50 @@ const Section: React.FC<SectionProps> = ({ title, description, image, reverse })
 
 export default function Home() {
   return (
-    <div className="bg-gradient-to-b from-green-200 to-blue-500 text-gray-900">
-      <section className="h-screen flex flex-col items-center justify-center text-center px-6">
-        <img src="/logo.png" alt="Logo" className='w-58 h-58' />
-        <h1 className="text-4xl md:text-5xl font-bold text-green-800">EcoLiving</h1>
-        <p className="text-lg mt-4 text-gray-700 max-w-2xl">
-          Simple Steps to a Greener Tomorrow
+    <div className="bg-gradient-to-b from-green-200 via-green-100 to-blue-200 text-gray-900">
+      <section className="min-h-screen flex flex-col items-center justify-center text-center px-6">
+        <Image
+          src="/logo.png"
+          alt="EcoLiving Logo"
+          width={240}
+          height={240}
+          className="mb-6"
+        />
+
+        <h1 className="text-5xl md:text-6xl font-extrabold text-green-800 tracking-tight">
+          EcoLiving
+        </h1>
+
+        <p className="mt-6 text-xl text-gray-700 max-w-2xl">
+          Simple steps toward a greener, more sustainable future.
         </p>
       </section>
+
 
       {/* Features Section */}
       <section className="py-20">
         <Section
-          title="Daily Eco Tips"
-          description="Receive daily tips on how to live a more sustainable life and reduce your carbon footprint."
+          title="🌿 Daily Eco Tips"
+          description="Receive chrated daily tips to help you adopt sustainable habits effortlessly. From reducing waste to saving energy, EcoLiving provides practical guidance you can apply immediately."
           image="/mockups/tips.png"
         />
         <Section
-          title="Recycling Center Locator"
-          description="Find nearby recycling centers easily with our interactive map feature."
+          title="♻️ Recycling Center Locator"
+          description="Quickly locate nearby recycling centers and learn exactly which materials they accept. EcoLiving helps you recycle with confidence and avoid unnecessary waste."
           image="/mockups/centers.png"
           reverse
         />
 
         <Section
-          title="Carbon Footprint Calculator"
-          description="Calculate your carbon emissions based on your daily activities and learn how to reduce it."
-          image="/mockups/carbon_before.png"
+          title="🌍 Carbon Footprint Calculator"
+          description="Understand your environmental impact by calculating your carbon footprint based on real-world data. EcoLiving provides clear insights to help you make informed, eco-friendly decisions."
+          image="/mockups/carbon.png"
         />
       </section>
 
       <section className="py-16 flex flex-col items-center">
         <h2 className="text-2xl md:text-3xl font-bold text-green-700 mb-6">
-          Download your EcoLiving App today!
+          Start your sustainable journey today!
         </h2>
         <DownloadButtons />
       </section>
