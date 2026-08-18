@@ -1,1 +1,231 @@
 @import "tailwindcss";
+
+:root {
+  --bg: #f5f4ec;
+  --bg-soft: #eeece0;
+  --ink: #223523;
+  --ink-soft: rgba(34, 53, 35, 0.64);
+  --ink-faint: rgba(34, 53, 35, 0.4);
+
+  --moss: #3f6b44;
+  --moss-dark: #2c4d30;
+  --clay: #c97c3e;
+  --sky: #3f7c89;
+  --sand: #e3dcc7;
+  --sage: #8fae93;
+
+  --border: rgba(34, 53, 35, 0.1);
+  --card: rgba(255, 255, 255, 0.55);
+  --surface: #ffffff;
+
+  --font-display: var(--font-fraunces), serif;
+  --font-body: var(--font-inter), sans-serif;
+}
+
+/* Dark theme — same organic palette, shifted for a night-forest feel
+   rather than a generic black. Warmer accents (moss/clay/sky) get lifted
+   in brightness so they still read clearly against the darker ground. */
+html.dark {
+  --bg: #12201a;
+  --bg-soft: #182a20;
+  --ink: #eee7d6;
+  --ink-soft: rgba(238, 231, 214, 0.66);
+  --ink-faint: rgba(238, 231, 214, 0.4);
+
+  --moss: #7bc189;
+  --moss-dark: #5fa06e;
+  --clay: #e59a52;
+  --sky: #6cc0d1;
+  --sand: rgba(255, 255, 255, 0.06);
+  --sage: #6fa57a;
+
+  --border: rgba(238, 231, 214, 0.14);
+  --card: rgba(255, 255, 255, 0.05);
+  --surface: #1e3226;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+/* soft paper grain */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Ambient blobs ── */
+.field-blob {
+  position: absolute;
+  border-radius: 63% 37% 54% 46% / 43% 37% 63% 57%;
+  filter: blur(60px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Eyebrow label ── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--moss);
+}
+.eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--clay);
+}
+/* per-section accent variants — dot color follows the section's theme */
+.eyebrow-moss::before { background: var(--moss); }
+.eyebrow-clay::before { background: var(--clay); }
+.eyebrow-sky::before { background: var(--sky); }
+
+/* ── Section wavy divider ── */
+.wave-divider {
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin-top: -1px;
+}
+
+/* ── 3D phone mockup ── */
+.phone-stage {
+  perspective: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.phone-3d {
+  transition: transform 0.3s ease-out;
+  transform-style: preserve-3d;
+  animation: phone-float 5s ease-in-out infinite;
+  will-change: transform;
+}
+.phone-3d:hover {
+  animation-play-state: paused;
+}
+@keyframes phone-float {
+  0%, 100% { transform: translateY(0) rotateZ(-1.5deg); }
+  50% { transform: translateY(-12px) rotateZ(1.5deg); }
+}
+.phone-frame {
+  position: relative;
+  border-radius: 34px;
+  padding: 10px;
+  background: linear-gradient(160deg, var(--surface), var(--sand));
+  border: 1px solid var(--border);
+  box-shadow: 0 30px 60px -20px rgba(34, 53, 35, 0.28), 0 10px 24px -10px rgba(34, 53, 35, 0.15);
+  overflow: hidden;
+}
+.phone-screen {
+  display: block;
+  border-radius: 26px;
+}
+.phone-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 34px;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.35) 0%, transparent 30%, transparent 70%, rgba(255, 255, 255, 0.12) 100%);
+  pointer-events: none;
+}
+.phone-shadow {
+  width: 65%;
+  height: 22px;
+  margin-top: 18px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(34, 53, 35, 0.24), transparent 70%);
+  filter: blur(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-3d { animation: none; }
+}
+
+/* ── Buttons ──
+   Both store buttons share one understated style now — the previous
+   solid-green + solid-black pairing read as two unrelated brands next to
+   each other and clashed with the earthy palette. */
+.btn-store {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.8rem 1.7rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  backdrop-filter: blur(6px);
+  color: var(--ink);
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.btn-store:hover {
+  transform: translateY(-2px);
+  border-color: var(--moss);
+  background: var(--surface);
+}
+.btn-store img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+}
+
+/* ── Theme toggle ── */
+.theme-toggle-slot {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 50;
+}
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.theme-toggle:hover {
+  transform: scale(1.08) rotate(12deg);
+  border-color: var(--moss);
+}
+
+/* ── Feature row spacing ── */
+.section-block {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 6rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .section-block { padding: 4rem 1.25rem; }
+  .organic-frame { padding: 1.25rem; }
+}

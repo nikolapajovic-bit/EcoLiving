@@ -1,15 +1,21 @@
-import { Inter, Roboto } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "../components/ThemeProvider";
 
 const interSans = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const robotoFont = Roboto({
-  variable: "--font-roboto",
+// Fraunces — a warm, organic serif with soft, hand-shaped curves. Replaces
+// Roboto (previously imported but unused) as the display face; it's the
+// typographic equivalent of the organic-blob visual language used site-wide.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-})
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
 
 export const metadata = {
   title: "EcoLiving",
@@ -27,9 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${interSans.variable} ${robotoFont.variable} antialiased`}
+        className={`${interSans.variable} ${fraunces.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
